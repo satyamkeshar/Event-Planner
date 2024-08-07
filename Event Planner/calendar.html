@@ -1,0 +1,114 @@
+<template>
+  <div class="slds-box slds-theme_default">
+    <div class="slds-grid slds-gutters">
+      <div class="slds-col">
+        <span>
+          <lightning-combobox
+          name="SelectedList"
+          label="Account/Lead/Beat"
+          value={SelectedListValue}
+          options={options}
+          onchange={handleSelectedList} >
+        </lightning-combobox>
+        </span>
+      </div>
+      <div class="slds-col">
+        <span>
+          <lightning-combobox
+          name="SelectedList1"
+          label="Representative"
+          value={SelectedUser}
+          options={userOptions}
+          onchange={handleSelectedUser} >
+        </lightning-combobox>
+        </span>
+      </div>
+
+
+    </div>
+    <!-- picklist for account/beat/lead -->
+    
+
+
+    <div class="slds-m-vertical_large">
+      <div class="slds-grid slds-gutters">
+        <div class="slds-size_3-of-12 slds-box slds-scrollable" style=" position: relative; height: 80vh">
+          <input class="eventlist-block" style="background-color: rgb(255, 255, 255); color:black " placeholder="Search" type="search" name="gsearch" oninput={handleSearch}/>
+            <div data-container="initial">
+      <template if:true={listEvent.length}>
+          <template for:each={listEvent} for:item="item" for:index="index">
+              <div key={item.id} draggable="true" ondragstart={APHandleDragStart} data-index={index} data-name={item.id} class="eventlist-block slds-is-draggable">
+                  {item.name}
+              </div>
+          </template>
+      </template>
+      <template if:false={listEvent.length}>
+          <p>No events available</p>
+      </template>
+  </div>
+      </div>
+        <div class="slds-align_absolute--center slds-box slds-size_9-of-12">
+            
+          <div>
+            <div class="month-header " style="color:red; text-align: left;">
+              {monthName} {year}
+              <div class="month-navigation" style="text-align: right;">
+                <template if:true={canGoBack}>
+                    <button class="slds-button slds-button_icon" onclick={handlePreviousMonthClick} title="Previous Month">
+                        <lightning-icon icon-name="utility:left" size="small" alternative-text="Previous Month"></lightning-icon>
+                        <span class="slds-assistive-text">Previous Month</span>
+                    </button>
+                </template>
+                <template if:false={cantGoForward}>
+                <button class="slds-button slds-button_icon" onclick={handleNextMonthClick} title="Next Month">
+                    <lightning-icon icon-name="utility:right" size="small" alternative-text="Next Month"></lightning-icon>
+                    <span class="slds-assistive-text">Next Month</span>
+                </button>
+                </template>
+              </div>
+            </div>
+            <div class="week-names" style="text-align:center">
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+              <div>Sun</div>
+            </div>
+            <div class="calendar-days">
+              <template for:each={calendarDays} for:item="day" for:index="index">
+                <template if:true={day.isFirstRow}>
+                  <div  ondrop={APHandleDrop} ondragover={APHandleDragOver} key={day.strDate} class="calendar-div" style={day.blockStyle} data-index={index} onclick={handleDayClick} data-day={day.dayNumber}>
+                    <div class="day-number">{day.dayNumber}</div>
+                    <template for:each={day.listEvent} for:item="event" for:index="eveindex">
+                      <div key={event.strDate} data-eveindex={eveindex} data-strdate={event.strDate} data-starttime={event.startTime} data-endtime={event.EndTime} class="event-block">{event.name}</div>
+                    </template>
+                    
+                    
+                  </div>
+                </template>
+                <template if:false={day.isFirstRow}>
+                  <div key={day.strDate} ondrop={APHandleDrop}  ondragover={APHandleDragOver} class="calendar-div" style={day.blockStyle} data-index={index} onclick={handleDayClick} data-day={day.dayNumber}>
+                    <div class="day-number">{day.dayNumber}</div>
+                    <template for:each={day.listEvent} for:item="event" for:index="eveindex">
+                      <div key={event.strDate} data-eveindex={eveindex} data-strdate={event.strDate} data-starttime={event.startTime} data-endtime={event.EndTime} class="event-block">{event.name}</div>
+                    </template>                  
+                  </div>
+                </template>
+              </template>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+  <template if:true={isLoading}>
+      <div>
+        <lightning-spinner alternative-text="Loading" size="large" variant="brand" class="slds-is-fixed slds-align--absolute-center"></lightning-spinner>
+      </div>
+    </template>
+</template>

@@ -1,0 +1,120 @@
+public class calendarMethods {
+    @AuraEnabled(cacheable=true)
+        public static List<sobject> acclist(String selectedValue)
+        {
+            if(selectedValue=='Account')
+            {
+                return [select Id, name from account];
+
+            }
+            else if(selectedValue=='Lead')
+            {
+                return [select Id, name from Lead];
+
+            }
+            else if(selectedValue=='Beat/Route')
+            {
+                return [select Id, name from Beat_Route__c];
+
+            }
+            system.debug('selectedValue:::::::=>>>>' + selectedValue);
+            return [select Id, name from account];
+        }
+
+        @AuraEnabled(cacheable=true)
+         public static List<sobject> acclistWithParameter(string n, String selectedValue)
+        {
+            String searchPattern = '%' + String.escapeSingleQuotes(n) + '%';
+            
+            if(selectedValue=='Account')
+            {
+                return [select Id, name from account  WHERE Name LIKE :searchPattern ];
+
+            }
+            else if(selectedValue=='Lead')
+            {
+                return [select Id, name from Lead  WHERE Name LIKE :searchPattern];
+
+            }
+            else if(selectedValue=='Beat/Route')
+            {
+                return [select Id, name from Beat_Route__c  WHERE Name LIKE :searchPattern];
+
+            }
+            return [SELECT Id, Name FROM Account WHERE Name LIKE :searchPattern];
+        }
+        
+        @AuraEnabled(cacheable=true)
+        public static List<user> getUsersList()
+        {   
+            return [select id,name from user];
+        }
+
+        @AuraEnabled
+        public static string createAccountRecord(string NewAccId,  string assingedDate, string selectedList, string ownerName){
+            list<Account> Acclist =[select id,name,OwnerId from Account where id=:NewAccId];
+            List<Lead> leadList = [select id,name,OwnerId from Lead where id=:NewAccId];
+            List<Beat_Route__c> beatList = [select id,name,OwnerId from Beat_Route__c where id=:NewAccId];
+            
+            List<user> userList = [Select id, name from user where name=:ownerName];
+            Date dateAssigned = Date.valueOf(assingedDate);
+                string returnStatement = 'successfully inserted!';
+            if(Acclist.size()>0){
+                Visit__c v = new Visit__c();
+                v.Account__c =NewAccId;
+                v.Name =Acclist[0].Name;
+                v.Visit_Date__c =dateAssigned;
+               if(userList.size()>0)
+                {
+                    v.OwnerId = userList[0].Id;
+                }
+                // ObjVisits.Actual_End__c = d;
+                //ObjVisits.OwnerId =Acclist[0].OwnerId;
+                insert v;
+                returnStatement = 'Account successfully inserted!';
+                system.debug('Visit__c created successfully!');
+            }
+            else if(leadList.size()>0)
+            {
+                Visit__c v = new Visit__c();
+                v.Lead__c =NewAccId;
+                v.Name =leadList[0].Name;
+                v.Visit_Date__c =dateAssigned;
+                if(userList.size()>0)
+                {
+                    v.OwnerId = userList[0].Id;
+                }
+                // ObjVisits.Actual_End__c = d;
+                //ObjVisits.OwnerId =Acclist[0].OwnerId;
+                insert v;
+                returnStatement = 'Lead successfully inserted!';
+                system.debug('Visit__c created successfully!');
+
+            }
+            else if(beatList.size()>0)
+            {
+                list<Account> beatAccountList = [select id, name from account where Beat_Route__c=: NewAccId];
+                List<Visit__c> visitList = new List<Visit__c>();
+       
+                for(Account acc:beatAccountList)
+                {
+                    Visit__c v = new Visit__c();
+                    v.Beat_Route__c =NewAccId;
+                    v.Name =beatList[0].Name;
+                    v.Visit_Date__c =dateAssigned;
+                    v.Account__c = acc.Id;
+                    visitList.add(v);
+                }
+                insert visitList;
+                returnStatement = 'Beat successfully inserted!';
+                system.debug('Visit__c created successfully!');
+            }
+            else{
+                returnStatement = 'Visit__c doesnt created!';
+            }
+           return returnStatement;
+    
+        }
+    
+
+    }

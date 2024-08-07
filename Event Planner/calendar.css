@@ -1,0 +1,252 @@
+/* CSS for maximizing the number of events in events-container */
+.month-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.week-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-div {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 5px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.calendar-div:hover {
+  background-color: #e9ecef;
+  /* transform: scale(1.05); */
+  transform: scale(1.5);
+  z-index: 6;
+}
+
+.day-number {
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.events-container {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+  transition: height 0.3s ease; /* Add transition for smooth animation */
+}
+
+
+
+.events-container.expanded {
+  height: auto; /* Expand to fit content */
+}
+
+.event-block {
+  width: 90%;
+  background-color: #007bff;
+  border-radius: 4px;
+  margin-top: 2px;
+  color: white;
+  text-align: center;
+  padding: 2px;
+  font-size: 10px;
+} 
+.search-block {
+  width: 100%;
+  height: 30px;
+  border-radius: 4px;
+  margin-top: 2px;
+ 
+  text-align: center;
+  padding: 2px;
+  font-size: 18px;
+}
+
+.eventlist-block {
+  width: 100%;
+  height: 30px;
+  background-color: #007bff;
+  border-radius: 4px;
+  margin-top: 2px;
+  color: white;
+  text-align: center;
+  padding: 2px;
+  font-size: 18px;
+}
+
+
+.first-row {}
+
+.month-navigation {
+  display: inline-block;
+  margin-left: 40px;
+  vertical-align: middle;
+}
+
+.month-navigation button {}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.address-icon {
+  margin-right: 2px;
+}
+
+.schedule-container {
+  margin-top: 10px;
+}
+
+.red-text {
+  color: rgb(255, 0, 0);
+  font-size: 1.2em;
+}
+
+.small-button {
+  padding: 5px 5px;
+}
+/* 
+.slds-box:hover {
+  border: 3px solid red;
+} */
+
+.disabled-day {
+  color: #999; /* Grey color */
+  cursor: not-allowed; /* Disable cursor */
+}
+
+/* General styles */
+.confirmation-container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.confirmation-section {
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-and-info {
+  display: flex;
+  align-items: flex-start;
+}
+
+.slds-current-color {
+  color: #0070d2;
+}
+
+.icons {
+  fill: #0070d2;
+}
+
+.editIcons {
+  fill: #0070d2;
+  cursor: pointer;
+}
+
+.section-title {
+  margin: 0;
+  margin-left: 9px;
+  font-size: 14px;
+}
+
+.info-content {
+  margin-left: 10px;
+}
+
+.info-content p {
+  margin: 5px 0;
+}
+
+.date {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.time {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.edit-icon-container {
+  fill: #0070d2;
+  margin-left: 10px;
+}
+
+.back-button {
+  margin-bottom: 20px;
+}
+
+.divider-line {
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.book-appointment-button {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.book-appointment-button-style {
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button-style {
+  background-color: transparent;
+  border: 1px solid #0070d2;
+  color: #0070d2;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.title-container {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 26px;
+  color: #0a0b0c;
+}
